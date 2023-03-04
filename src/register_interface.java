@@ -132,13 +132,13 @@ catch(Exception  e1) {
 					String user_password = passwordWriter.getText();
 					
 					
-					
+					// Establishing parameters for the Query
 					String[] parameters = {writer_aid.getText(), writer_email.getText(), writer_DOB.getText(), passwordWriter.getText()};
 					
-					parameters[0];
-					parameters[1];
-					parameters[2];
-					parameters[3];
+					//parameters[0];
+					//parameters[1];
+					//parameters[2];
+					//parameters[3];
 					
 					
 					

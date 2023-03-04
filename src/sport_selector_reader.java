@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTable;
 
+import net.proteanit.sql.DbUtils;
+
 public class sport_selector_reader extends JFrame {
 
 	private JPanel contentPane;

@@ -20,6 +20,7 @@ public class comment_interface extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -48,24 +49,11 @@ public class comment_interface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setBounds(74, 94, 572, 313);
 		contentPane.add(editorPane);
 
-		btnNewButton.setBounds(277, 431, 174, 43);
-		contentPane.add(btnNewButton);
-		
-		JLabel lblNewLabel = new JLabel("AID");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblNewLabel.setBounds(74, 61, 46, 16);
-		contentPane.add(lblNewLabel);
-		
-		textField = new JTextField();
-		textField.setBounds(128, 56, 140, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
 		JButton btnNewButton = new JButton("Submit Comment");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,20 +61,34 @@ public class comment_interface extends JFrame {
 				reader_article_interface.main(null);
 			}
 		});
-		
-		String query2 = "insert into Comments(AID) values(?)";
-		PreparedStatement pst = connection.prepareStatement(query2);
-		// for loop
-		pst.setString(1, editorPane.getText());
-		pst.execute();
-		JOptionPane.showMessageDialog(null, "Record has been saved");
-		frame.dispose();
-		pst.close();
-		
-	}}
-	catch(Exception  e1) {
-		
-		
+		btnNewButton.setBounds(277, 431, 174, 43);
+		contentPane.add(btnNewButton);
+
+		JLabel lblNewLabel = new JLabel("AID");
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		lblNewLabel.setBounds(74, 61, 46, 16);
+		contentPane.add(lblNewLabel);
+
+		JTextField textField = new JTextField();
+		textField.setBounds(128, 56, 140, 26);
+		contentPane.add(textField);
+		textField.setColumns(10);
+
+		try {
+			String query2 = "insert into Comments(AID) values(?)";
+			PreparedStatement pst = connection.prepareStatement(query2);
+			// for loop
+			pst.setString(1, editorPane.getText());
+			pst.execute();
+			JOptionPane.showMessageDialog(contentPane, "Record has been saved");
+			// frame.dispose(); // close the frame
+			pst.close();
+
+		} catch (Exception e1) {
+			e1.printStackTrace(); // print error message
+
+		}
 	}
+}
 	
 	

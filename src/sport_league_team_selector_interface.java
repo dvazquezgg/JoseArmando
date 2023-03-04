@@ -17,8 +17,7 @@ import java.awt.event.ActionEvent;
 
 public class sport_league_team_selector_interface extends JFrame {
 
-	private JPanel contentPane;
-	JComboBox sport,league,team;
+
 	Map<String, String[]> map = new TreeMap<String, String[]>();
 	String sports[]= {"","Soccer", "Basketball", "Baseball", "Football", "Tennis", "Hockey", "Racing", "Golf", "Cricket", "Rugby", "Olympics"};
 	String Soccer[]= {"Premier League", "Spanish La Liga", "French Ligue 1", "Italian Serie A", "German Bundesliga", "National Teams", "Liga MX", "MLS", "Womens Nations"};
@@ -34,12 +33,17 @@ public class sport_league_team_selector_interface extends JFrame {
 	String Olympics[]= {"Track and Field", "Swimming", "Weightlifting",};
 
 	sport_league_team_selector_interface() {
+
+
 		setLayout(null);
-		sport = new JComboBox(sports);
+
+
+
+		final JComboBox sport = new JComboBox(sports);
 		sport.addActionListener(sport);
 		add(sport);
-		 
-		league = new JComboBox(sports);
+
+		JComboBox league = new JComboBox(sports);
 		league.addActionListener(league);
 		add(league);
 		
@@ -60,7 +64,8 @@ public class sport_league_team_selector_interface extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 684, 518);
-		contentPane = new JPanel();
+
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -106,10 +111,9 @@ public class sport_league_team_selector_interface extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			
-			
 			public void actionPerformed(ActionEvent e) {
-				sports = (JCombBox)e.getSource();
-				String value = (String)sports.getSelectedItem();
+				JComboBox sportCombo = (JComboBox) e.getSource();
+				String value = (String) (sportCombo.getSelectedItem());
 				
 				if(map.containsKey(value)) {
 					league.removeAllItems();
