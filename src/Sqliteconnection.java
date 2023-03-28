@@ -10,7 +10,7 @@ import java.sql.*;
 	    public static Connection dbConnector(){
 	        try{
 	           Class.forName("org.sqlite.JDBC");
-	           Connection con = DriverManager.getConnection("jdbc:sqlite:/Users/josearmandoguerrero/Documents/Greengates/CS/IA/computerscienceia.sqlite");
+	           Connection con = DriverManager.getConnection("jdbc:sqlite:computerscienceia.sqlite");
 	           JOptionPane.showMessageDialog(null, "Connection Successful");
 	           return con;
 	        }
