@@ -134,9 +134,32 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 		commenteditor.setBounds(760, 172, 218, 267);
 		contentPane.add(commenteditor);
 
+		//***************************************************************************************
+		// We create the TextArea and pass the story in as an argument.
+		// We also set it to be non-editable, and the line and word wraps set to true.
+		JTextArea articleArea = new JTextArea("Sample Article.");
+		articleArea.setEditable(false);
+		articleArea.setLineWrap(true);
+		articleArea.setWrapStyleWord(true);
+
 		articleslist = new JTable();
 		articleslist.setBounds(28, 234, 335, 267);
 		contentPane.add(articleslist);
+		ListSelectionModel selectionModel = articleslist.getSelectionModel(); // get selection model
+		selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // set selection mode to single selection
+		selectionModel.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) { // check if the selection is done
+					int selectedRow = articleslist.getSelectedRow(); // get the selected row index
+					int column = 3; // specify the column index of the cell you want to get the value from
+					String article = (String) articleslist.getValueAt(selectedRow, column); // get the value of the cell
+					// this line is for the text area to show the article
+					articleArea.setText(article);
+				}
+			}
+		});
+
 
 		JLabel lblNewLabel_2_1 = new JLabel("What would you like to read?");
 		lblNewLabel_2_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
@@ -153,13 +176,6 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 		articletitle.setBounds(508, 84, 61, 16);
 		contentPane.add(articletitle);
 
-		//***************************************************************************************
-		// We create the TextArea and pass the story in as an argument.
-		// We also set it to be non-editable, and the line and word wraps set to true.
-		JTextArea articleArea = new JTextArea("Sample Article.");
-		articleArea.setEditable(false);
-		articleArea.setLineWrap(true);
-		articleArea.setWrapStyleWord(true);
 
 		// We create the JScrollPane and pass the TextArea as an argument.
 		JScrollPane article = new JScrollPane(articleArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -221,7 +237,7 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 					PreparedStatement pstt = connection.prepareStatement(query2);
 					ResultSet rs = pstt.executeQuery();
 					// this line is for the text area to show the article
-					articleArea.setText(rs.getString("Article"));
+					// articleArea.setText(rs.getString("Article"));
 					// this line is for the table to show the article
 					articleslist.setModel(DbUtils.resultSetToTableModel(rs));
 
