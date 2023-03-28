@@ -1,4 +1,4 @@
-import java.awt.EventQueue;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.util.Map;
 import java.util.TreeMap;
 import java.awt.event.ActionEvent;
-import java.awt.Font;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +30,15 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 	String teamValue;
 	private JTable table;
 	private JTable articleslist;
+
+	//****************************************************************
+	// declaring controls as private variables
+	// so that they can be accessed from any method
+	// in this class
 	private JScrollPane article;
+	private JEditorPane commenteditor;
+	private JButton addcomment, showarticles, BackButtonReaders ;
+	//****************************************************************
 	Map<String, String[]> map = new TreeMap<String, String[]>();
 	Map<String, String[]> map1 = new TreeMap<String, String[]>();
 	// writer_interface form = new writer_interface();
@@ -118,11 +125,58 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 		WelcomeReader.setBounds(23, 26, 152, 16);
 		contentPane.add(WelcomeReader);
 
-		JEditorPane commenteditor = new JEditorPane();
+		JLabel comments = new JLabel("General Comment (Opinion)");
+		comments.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		comments.setBounds(760, 126, 218, 16);
+		contentPane.add(comments);
+
+		commenteditor = new JEditorPane();
 		commenteditor.setBounds(760, 172, 218, 267);
 		contentPane.add(commenteditor);
 
-		JButton addcomment = new JButton("Add Comment");
+		articleslist = new JTable();
+		articleslist.setBounds(28, 234, 335, 267);
+		contentPane.add(articleslist);
+
+		JLabel lblNewLabel_2_1 = new JLabel("What would you like to read?");
+		lblNewLabel_2_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		lblNewLabel_2_1.setBounds(23, 84, 245, 16);
+		contentPane.add(lblNewLabel_2_1);
+
+		JComboBox sportscombo = new JComboBox();
+		sportscombo.setModel(new DefaultComboBoxModel(new String[]{"Soccer", "Basketball", "Baseball", "Football", "Olympics"}));
+		sportscombo.setBounds(69, 161, 146, 27);
+		contentPane.add(sportscombo);
+
+		JLabel articletitle = new JLabel("Article");
+		articletitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		articletitle.setBounds(508, 84, 61, 16);
+		contentPane.add(articletitle);
+
+		//***************************************************************************************
+		// We create the TextArea and pass the story in as an argument.
+		// We also set it to be non-editable, and the line and word wraps set to true.
+		JTextArea articleArea = new JTextArea("Sample Article.");
+		articleArea.setEditable(false);
+		articleArea.setLineWrap(true);
+		articleArea.setWrapStyleWord(true);
+
+		// We create the JScrollPane and pass the TextArea as an argument.
+		JScrollPane article = new JScrollPane(articleArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		article.setPreferredSize(new Dimension(300, 200));
+		JLabel articlelabel = new JLabel(new ImageIcon("A.jpg"));
+		article.setBounds(400, 164, 284, 404);
+		contentPane.add(article);
+
+		// You don't need the table here, you can just use the TextArea.
+		//table = new JTable();
+		//article.setViewportView(table);
+
+		//***************************************************************************************
+		// BUTTONS
+		//***************************************************************************************
+		addcomment = new JButton("Add Comment");
 		addcomment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -145,41 +199,7 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 		addcomment.setBounds(813, 495, 117, 46);
 		contentPane.add(addcomment);
 
-		JLabel comments = new JLabel("General Comment (Opinion)");
-		comments.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		comments.setBounds(760, 126, 218, 16);
-		contentPane.add(comments);
-
-		JScrollPane article = new JScrollPane();
-		JLabel articlelabel = new JLabel(new ImageIcon("A.jpg"));
-		article.setBounds(400, 164, 284, 404);
-		contentPane.add(article);
-
-		table = new JTable();
-		article.setViewportView(table);
-
-		articleslist = new JTable();
-		articleslist.setBounds(28, 234, 335, 267);
-		contentPane.add(articleslist);
-
-		JLabel lblNewLabel_2_1 = new JLabel("What would you like to read?");
-		lblNewLabel_2_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblNewLabel_2_1.setBounds(23, 84, 245, 16);
-		contentPane.add(lblNewLabel_2_1);
-
-
-		JComboBox sportscombo = new JComboBox();
-		sportscombo.setModel(new DefaultComboBoxModel(new String[]{"Soccer", "Basketball", "Baseball", "Football", "Olympics"}));
-		sportscombo.setBounds(69, 161, 146, 27);
-		contentPane.add(sportscombo);
-
-
-		JLabel articletitle = new JLabel("Article");
-		articletitle.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		articletitle.setBounds(508, 84, 61, 16);
-		contentPane.add(articletitle);
-
-		JButton BackButtonReaders = new JButton("Back");
+		BackButtonReaders = new JButton("Back");
 		BackButtonReaders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				register_and_login_interface object = new register_and_login_interface();
@@ -189,16 +209,21 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 		BackButtonReaders.setBounds(23, 553, 117, 29);
 		contentPane.add(BackButtonReaders);
 
-		JButton showarticles = new JButton("Show");
+
+		showarticles = new JButton("Show");
 		showarticles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				connection = Sqliteconnection.dbConnector();
 				try {
 					String query2 = "select * from Articles where Sport='" + sportscombo.getSelectedItem() + "'";
 					;
+					//System.out.println(query2);
 					PreparedStatement pstt = connection.prepareStatement(query2);
 					ResultSet rs = pstt.executeQuery();
-							articleslist.setModel(DbUtils.resultSetToTableModel(rs));
+					// this line is for the text area to show the article
+					articleArea.setText(rs.getString("Article"));
+					// this line is for the table to show the article
+					articleslist.setModel(DbUtils.resultSetToTableModel(rs));
 
 					pstt.close();
 					rs.close();
@@ -206,13 +231,18 @@ public class reader_interface extends JFrame implements ListSelectionListener {
 					e2.printStackTrace();
 				}
 			}
-
-			;
-
-
 		});
 		showarticles.setBounds(82, 193, 117, 29);
 		contentPane.add(showarticles);
+
+		//***************************************************************************************
+
+
+
+
+
+
+
 
 	}
 
